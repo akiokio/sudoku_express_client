@@ -103,6 +103,32 @@ class Play extends Component {
     this.props.history.push("/");
   };
 
+  handleSolveBoard = () => {
+    const { match } = this.props;
+
+    fetch(`${BACKEND_URL}/sudoku/solve/${match.params.id}`, {
+      method: "POST"
+    })
+      .then(res => res.json())
+      .then(
+        result => {
+          this.props.closeSnackbar();
+
+          if (result.success === true) {
+            this.setState({
+              game: result.game
+            });
+            this.props.enqueueSnackbar(result.message, { variant: "success" });
+          } else {
+            this.handleFailure(result.error);
+          }
+        },
+        error => {
+          throw error;
+        }
+      );
+  };
+
   render() {
     const { game } = this.state;
     return (
@@ -123,6 +149,9 @@ class Play extends Component {
                 onClick={this.handleDeleteGame}
               >
                 Delete Game
+              </Button>
+              <Button variant="outlined" onClick={this.handleSolveBoard}>
+                Solve board
               </Button>
             </div>
             <Board board={game.board} onChange={this.onChange} />
