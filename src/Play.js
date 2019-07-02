@@ -133,7 +133,11 @@ class Play extends Component {
     const { game } = this.state;
     return (
       <Fragment>
-        {!game && <section>Loading game...</section>}
+        {!game && (
+          <Typography variant="h1" component="h2" gutterBottom>
+            Loading...
+          </Typography>
+        )}
         {game && (
           <Fragment>
             <Typography variant="h1" component="h2" gutterBottom>
