@@ -120,7 +120,7 @@ class Play extends Component {
             });
             this.props.enqueueSnackbar(result.message, { variant: "success" });
           } else {
-            this.handleFailure(result.error);
+            this.handleFailure(result.message);
           }
         },
         error => {
