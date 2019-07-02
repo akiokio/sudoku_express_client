@@ -74,6 +74,31 @@ class Play extends Component {
     this.props.enqueueSnackbar(message, { variant: "error" });
   };
 
+  handleDeleteGame = () => {
+    const { match } = this.props;
+
+    fetch(`${BACKEND_URL}/sudoku/delete/${match.params.id}`, {
+      method: "POST"
+    })
+      .then(res => res.json())
+      .then(
+        result => {
+          this.props.closeSnackbar();
+
+          if (result.success === true) {
+            this.props.enqueueSnackbar(result.message, { variant: "success" });
+
+            this.props.history.push("/");
+          } else {
+            this.handleFailure(result.error);
+          }
+        },
+        error => {
+          throw error;
+        }
+      );
+  };
+
   backHome = () => {
     this.props.history.push("/");
   };
@@ -91,6 +116,13 @@ class Play extends Component {
             <div className="actions__row">
               <Button variant="outlined" onClick={this.backHome}>
                 Back to home
+              </Button>
+              <Button
+                variant="outlined"
+                color="secondary"
+                onClick={this.handleDeleteGame}
+              >
+                Delete Game
               </Button>
             </div>
             <Board board={game.board} onChange={this.onChange} />
