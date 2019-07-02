@@ -1,0 +1,44 @@
+.board {
+  width: 100%;
+  font-size: 22px;
+  border: 1px solid black;
+
+  .row,
+  .column {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .column {
+    flex: 1;
+  }
+
+  .even {
+    background: #f1f1f1;
+  }
+
+  .cell {
+    display: table;
+
+    input {
+      display: table-cell;
+      height: 72px;
+      text-align: center;
+      font-size: 22px;
+      margin: 0;
+      padding: 0;
+      border: 0;
+      width: 100%;
+      background: transparent;
+    }
+  }
+
+  .line-bottom {
+    border-bottom: 1px solid black;
+  }
+
+  .line-right {
+    border-right: 1px solid black;
+  }
+}
