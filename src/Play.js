@@ -1,9 +1,13 @@
 import React, { Fragment, Component } from "react";
 import Typography from "@material-ui/core/Typography";
 import { withSnackbar } from "notistack";
+import { withRouter } from "react-router-dom";
+import Button from "@material-ui/core/Button";
 
 import Board from "./Board";
-import { BASE_URL } from "./constants";
+import { BACKEND_URL } from "./constants";
+
+import "./Play.scss";
 
 class Play extends Component {
   state = {
@@ -12,7 +16,7 @@ class Play extends Component {
 
   componentDidMount() {
     const { match } = this.props;
-    fetch(`${BASE_URL}/sudoku/play/${match.params.id}`)
+    fetch(`${BACKEND_URL}/sudoku/play/${match.params.id}`)
       .then(res => res.json())
       .then(
         result => {
@@ -35,7 +39,7 @@ class Play extends Component {
 
   updateBoard = (row, col, val) => {
     const { match } = this.props;
-    fetch(`${BASE_URL}/sudoku/play/${match.params.id}`, {
+    fetch(`${BACKEND_URL}/sudoku/play/${match.params.id}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -55,7 +59,7 @@ class Play extends Component {
             this.setState({
               game: result.game
             });
-            this.props.enqueueSnackbar(result.message);
+            this.props.enqueueSnackbar(result.message, { variant: "success" });
           } else {
             this.handleFailure(result.error);
           }
@@ -67,7 +71,11 @@ class Play extends Component {
   };
 
   handleFailure = message => {
-    this.props.enqueueSnackbar(message);
+    this.props.enqueueSnackbar(message, { variant: "error" });
+  };
+
+  backHome = () => {
+    this.props.history.push("/");
   };
 
   render() {
@@ -80,6 +88,11 @@ class Play extends Component {
             <Typography variant="h1" component="h2" gutterBottom>
               {game.name}
             </Typography>
+            <div className="actions__row">
+              <Button variant="outlined" onClick={this.backHome}>
+                Back to home
+              </Button>
+            </div>
             <Board board={game.board} onChange={this.onChange} />
           </Fragment>
         )}
@@ -88,4 +101,4 @@ class Play extends Component {
   }
 }
 
-export default withSnackbar(Play);
+export default withRouter(withSnackbar(Play));
