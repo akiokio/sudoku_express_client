@@ -1,10 +1,18 @@
 import React, { Fragment, Component } from "react";
-import { Link, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
+import GamesIcon from "@material-ui/icons/Games";
+
 import { BACKEND_URL } from "./constants";
 
 import "./Home.scss";
+
+const ListItemLink = props => <ListItem button component="a" {...props} />;
 
 class Home extends Component {
   state = {
@@ -60,13 +68,16 @@ class Home extends Component {
           <Typography variant="body1" gutterBottom>
             Available games: {games.length}
           </Typography>
-          <ul>
+          <List component="nav">
             {games.map((game, i) => (
-              <li key={game.id}>
-                <Link to={`/play/${game.id}`}>{game.name}</Link>
-              </li>
+              <ListItemLink key={game.id} button href={`/play/${game.id}`}>
+                <ListItemIcon>
+                  <GamesIcon />
+                </ListItemIcon>
+                <ListItemText primary={game.name} />
+              </ListItemLink>
             ))}
-          </ul>
+          </List>
         </section>
       </Fragment>
     );
