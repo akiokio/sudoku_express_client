@@ -24,6 +24,7 @@ class Board extends Component {
               >
                 <div className="cell">
                   <input
+                    disabled={value === 0 ? null : "disabled"}
                     value={value === 0 ? "" : value}
                     onChange={e => {
                       onChange(i, j, e.target.value);
